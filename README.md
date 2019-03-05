@@ -1,5 +1,8 @@
 Docker container that creates a SMB share.
 
+## Change
+- Switch the base image to ubuntu, Because samba in hypriot/rpi-alpine-scratch cannot run on some cpu
+
 ## Running
 
 ```
@@ -12,7 +15,7 @@ docker run -d \
   --restart='always' \
   --hostname 'filer' \
   -v /media/stick:/share/stick \
-  --name samba dastrasmue/rpi-samba:v3 \
+  --name samba shellus/rpi-samba \
   -u "alice:abc123" \
   -u "bob:secret" \
   -s "Backup directory:/share/stick/backups:rw:alice,bob" \

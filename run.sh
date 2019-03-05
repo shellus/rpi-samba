@@ -7,7 +7,7 @@ initialized=`getent passwd |grep -c '^smbuser:'`
 hostname=`hostname`
 set -e
 if [ $initialized = "0" ]; then
-  adduser smbuser -SHD
+  adduser smbuser --no-create-home --disabled-password --system 
 
   cat >"$CONFIG_FILE" <<EOT
 [global]
@@ -73,9 +73,9 @@ EOH
         echo -n "Add user "
         IFS=: read username password <<<"$OPTARG"
         echo -n "'$username' "
-        adduser "$username" -SHD
+        adduser "$username" --no-create-home --disabled-password --system 
         echo -n "with password '$password' "
-        echo "$password" |tee - |smbpasswd -s -a "$username"
+        printf "$password\n$password\n" |tee - |smbpasswd -s -a "$username"
         echo "DONE"
         ;;
       s)
@@ -124,4 +124,4 @@ EOH
 
 fi
 nmbd -D
-exec ionice -c 3 smbd -FS --configfile="$CONFIG_FILE" < /dev/null
+exec ionice -c 3 smbd -FS --configfile="$CONFIG_FILE"

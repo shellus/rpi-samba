@@ -1,7 +1,7 @@
-FROM hypriot/rpi-alpine-scratch
-MAINTAINER Daniel S.
+FROM ubuntu
+MAINTAINER shellus
 
-RUN apk update && apk upgrade && apk add bash samba-common-tools samba && rm -rf /var/cache/apk/*
+RUN apt-get update && apt-get install -y samba && apt-get clean
 
 COPY run.sh /run.sh
 RUN chmod u+x /run.sh
